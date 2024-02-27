@@ -1,38 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Upload PDF</title>
-</head>
-<body>
-<h2>Upload a PDF file</h2>
-<form id="uploadForm" enctype="multipart/form-data">
-    <input type="file" id="pdfFile" name="pdfFile" required>
-    <button type="submit">Upload</button>
-</form>
-<script>
-document.getElementById('uploadForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload PDF</title>
+  </head>
+  <body>
+    <h2>Upload a PDF file</h2>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input type="file" id="pdfFile" name="pdfFile" required />
+      <button type="submit">Upload</button>
+    </form>
+    <script>
+      document
+        .getElementById("uploadForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
 
-    const formData = new FormData();
-    formData.append('pdfFile', document.getElementById('pdfFile').files[0]);
+          const formData = new FormData();
+          formData.append(
+            "pdfFile",
+            document.getElementById("pdfFile").files[0]
+          );
 
-    console.log("data:",formData)
-    try {
-        const response = await fetch('/upload', {
-            method: 'POST',
-            body: formData
+          console.log("data:", formData);
+          try {
+            const response = await fetch("http://127.0.0.1:3000/upload", {
+              method: "POST",
+              body: formData,
+            });
+
+            const data = await response.json();
+            console.log(data);
+          } catch (error) {
+            console.error("Error:", error);
+          }
         });
-
-        const data = await response.json();
-        console.log(data);
-      
-    } catch (error) {
-        console.error('Error:', error);
-       
-    }
-});
-</script>
-</body>
+    </script>
+  </body>
 </html>
+
+
+
