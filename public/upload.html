@@ -32,6 +32,23 @@
 
             const data = await response.json();
             console.log(data);
+
+            let scoretitle = document.createElement('p');
+            scoretitle.textContent = data.overall_score
+            document.body.appendChild(scoretitle);
+
+            data.Analysis_Score_Per_property.forEach(item => {
+
+              for (let index = 0; index < item.length; index++) {
+                const text = item[index];
+              //Creating a new paragraph element to display the text
+                const paragraph = document.createElement('p');
+                paragraph.textContent = text;
+                document.body.appendChild(paragraph);
+              }              
+            });
+
+
           } catch (error) {
             console.error("Error:", error);
           }
