@@ -1,61 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Upload PDF</title>
-  </head>
-  <body>
-    <h2>Upload a PDF file</h2>
-    <form id="uploadForm" enctype="multipart/form-data">
-      <input type="file" id="pdfFile" name="pdfFile" required />
-      <button type="submit">Upload</button>
-    </form>
-    <script>
-      document
-        .getElementById("uploadForm")
-        .addEventListener("submit", async function (event) {
-          event.preventDefault();
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>File Upload Form</title>
+</head>
+<body>
+  <h2>File Upload Form</h2>
+  <form id="uploadForm" method="post" enctype="multipart/form-data">
+    <label for="fullname">Full Name:</label><br>
+    <input type="text" id="fullname" name="fullname" required><br><br>
 
-          const formData = new FormData();
-          formData.append(
-            "pdfFile",
-            document.getElementById("pdfFile").files[0]
-          );
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
 
-          console.log("data:", formData);
-          try {
-            const response = await fetch("http://127.0.0.1:3000/upload", {
-              method: "POST",
-              body: formData,
-            });
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
 
-            const data = await response.json();
-            console.log(data);
+    <label for="file">Upload File (PDF/DOC):</label><br>
+    <input type="file" id="file" name="pdf" accept=".pdf,.doc,.docx" required><br><br>
 
-            let scoretitle = document.createElement('p');
-            scoretitle.textContent = data.overall_score
-            document.body.appendChild(scoretitle);
+    <input type="submit" value="Submit">
+  </form>
 
-            data.Analysis_Score_Per_property.forEach(item => {
+  <script>
+    document
+      .getElementById("uploadForm")
+      .addEventListener("submit", async function (event) {
+        event.preventDefault();
 
-              for (let index = 0; index < item.length; index++) {
-                const text = item[index];
-              //Creating a new paragraph element to display the text
-                const paragraph = document.createElement('p');
-                paragraph.textContent = text;
-                document.body.appendChild(paragraph);
-              }              
-            });
+        const formData = new FormData();
+        formData.append(
+          "file",
+          document.getElementById("file").files[0]
+        );
 
+        console.log("data:", formData);
+        try {
+          const response = await fetch("http://127.0.0.1:3000/upload", {
+            method: "POST",
+            body: formData,
+          });
 
-          } catch (error) {
-            console.error("Error:", error);
-          }
-        });
-    </script>
-  </body>
+          const data = await response.json();
+          console.log(data);
+          
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      });
+  </script>
+
+</body>
 </html>
-
-
-
